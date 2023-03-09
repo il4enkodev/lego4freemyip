@@ -25,7 +25,7 @@ find_latest_lego_version() {
     if ! command -v xmllint &> /dev/null; then
         log -e "xmllint is not found but required as a dependency for this script"
         log -e "Please install it and try again"
-        exit 1
+        return 1
     else
         echo $feed | xmllint --xpath "//*[local-name()='entry'][1]/*[local-name()='title']/text()" -
     fi
@@ -73,9 +73,9 @@ install_lego() {
     local version os arch
     log -d "Preparing to install lego"
 
-    os=$(determine_os) || return 1
-    arch=$(determine_arch) || return 1
-    version=$(find_latest_lego_version) || return 1
+    os=$(determine_os) || exit 1
+    arch=$(determine_arch) || exit 1
+    version=$(find_latest_lego_version) || exit 1
 
     local filename="lego_${version}_${os}_${arch}.tar.gz"
     log -d "Downloading $filename"
