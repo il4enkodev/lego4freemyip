@@ -109,8 +109,11 @@ check_root() {
 }
 
 install_scripts() {
-    log -d "Creating user '$LEGO_USER' and group '$LEGO_GROUP'"
-    useradd -r -s /bin/false -g $LEGO_GROUP -d $LEGO_WORKING_DIR $LEGO_USER
+    log -d "Creating group '$LEGO_GROUP'"
+    groupadd $LEGO_GROUP
+
+    log -d "Creating user '$LEGO_USER'"
+    useradd -r -s /bin/false -G $LEGO_GROUP -d "$LEGO_HOME_DIR" $LEGO_USER
 
     log -d "Installing scripts into $LEGO_WRAPPERS_DIR"
     mkdir -p {$LEGO_WRAPPERS_DIR,$LEGO_HOME_DIR}
