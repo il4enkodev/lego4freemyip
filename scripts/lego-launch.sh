@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export LEGO_PATH=/etc/lego
+
 obtain() {
 	lego -a --email=$LEGO_EMAIL --domains="*.$FREEMYIP_DOMAIN" --dns freemyip -k ec384 \
         run --must-staple --run-hook=$HOOK
