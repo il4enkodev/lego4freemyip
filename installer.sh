@@ -78,17 +78,21 @@ install_lego() {
     version=$(find_latest_lego_version) || exit 1
 
     local filename="lego_${version}_${os}_${arch}.tar.gz"
-    log -d "Downloading $filename"
-
     local download_url="https://github.com/go-acme/lego/releases/download/${version}/${filename}"
+
+    log -d "Downloading $download_url"
     local filepath="/tmp/${filename}"
 
-    curl --silent --fail --show-error -o "$filepath" "$download_url" \
-        || log -e "Download failed (url: $download_url)"; exit 1
+    if ! curl --silent --fail --show-error -L -o "$filepath" "$download_url"; then
+        log -e "Download failed (url: $download_url)"
+        exit 1
+    fi
 
     log -d "Unpaking lego binary into $LEGO_INSTALL_DIR"
-    tar -C "$LEGO_INSTALL_DIR" -xf $filepath --no-same-owner lego \
-        || log -e "Failed to unpack lego binary into $LEGO_INSTALL_DIR"; exit 1
+    if ! tar -C "$LEGO_INSTALL_DIR" -xf $filepath --no-same-owner lego; then
+        log -e "Failed to unpack lego binary into $LEGO_INSTALL_DIR"
+        exit 1
+    fi
 
     rm $filepath
 
@@ -150,5 +154,6 @@ EOF
 
 check_root $0
 install_lego
+install_scripts
 register
 
