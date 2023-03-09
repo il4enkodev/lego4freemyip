@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export LEGO_PATH=/etc/lego
+HOOK=/usr/share/lego/hooks/copy-certs.sh
 
 obtain() {
 	lego -a --email=$LEGO_EMAIL --domains="*.$FREEMYIP_DOMAIN" --dns freemyip -k ec384 \
