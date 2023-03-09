@@ -97,7 +97,7 @@ install_lego() {
 
     rm $filepath
 
-    log -i "Successfully installed lego $version"
+    log -i "Successfully installed lego $version\n"
 }
 
 check_root() {
@@ -124,7 +124,7 @@ install_scripts() {
     log -d "Creating symlinks"
     ln -s $LEGO_WRAPPERS_DIR/scripts/lego-launch.sh /usr/local/bin/lego-launch
 
-    log -d "Creating directory $LEGO_CERTS_DIR"
+    log -d "Creating directory $LEGO_CERTS_DIR\n"
     mkdir -p $LEGO_CERTS_DIR
     chgrp $LEGO_GROUP $LEGO_CERTS_DIR
     chmod 775 $LEGO_CERTS_DIR
@@ -145,12 +145,18 @@ parse_url() {
 }
 
 register() {
+    log -d "Registering user account"
+    local env_file=$LEGO_HOME_DIR/freemyip.env
+
+    local reset="\033[0m"
+    local green='\033[0;32m'
+
     echo "Enter your credential"
-    read -p "freemyip url: " url
+    read -p "$(echo -e $green"Freemyip url: "$reset)" url
     parse_url $url
 
-    read -p "email: " email
-    log -d "Generating env file with credentials"
+    read -p "$(echo -e $green"Email: "$reset)" email
+    log -d "Generating env file with credentials ($env_file)"
 
 tee $LEGO_HOME_DIR/freemyip.env > /dev/null <<EOF
 export LEGO_EMAIL=$email
@@ -161,6 +167,8 @@ EOF
 
     chown -R $LEGO_USER:$LEGO_GROUP $LEGO_HOME_DIR
     chmod 640 $LEGO_HOME_DIR/freemyip.env
+
+    log -i "User account successfuly created\n"
 }
 
 # ----- MAIN ----------
@@ -170,3 +178,8 @@ install_lego
 install_scripts
 register
 
+log -i "Obtaining certificates..."
+lego-launch obtain
+
+log -i "\nDone!"
+log -i "Use lego-launch for renew/rewoke existing certificates"
