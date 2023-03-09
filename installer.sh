@@ -22,7 +22,13 @@ find_latest_lego_version() {
         echo "Error fetching feed!" >&2
         return $?
     fi
-    echo $feed | xmllint --xpath "//*[local-name()='entry'][1]/*[local-name()='title']/text()" -
+    if ! command -v xmllint &> /dev/null; then
+        log -e "xmllint is not found but required as a dependency for this script"
+        log -e "Please install it and try again"
+        exit 1
+    else
+        echo $feed | xmllint --xpath "//*[local-name()='entry'][1]/*[local-name()='title']/text()" -
+    fi
 }
 
 determine_arch() {
