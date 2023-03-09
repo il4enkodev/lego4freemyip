@@ -127,10 +127,10 @@ parse_url() {
 
 register() {
     echo "Enter your credential"
-    input -p "freemyip url: " url
+    read -p "freemyip url: " url
     parse_url $url
 
-    input -p "email: " email
+    read -p "email: " email
     log -d "Generating env file with credentials"
 
 tee $LEGO_HOME_DIR/freemyip.env > /dev/null <<EOF
