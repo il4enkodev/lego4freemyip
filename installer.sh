@@ -4,6 +4,7 @@ LEGO_INSTALL_DIR=/usr/local/bin
 LEGO_WRAPPERS_DIR=/usr/share/lego
 LEGO_SCRIPT_DIR=$LEGO_WRAPPERS_DIR/scripts
 LEGO_HOOKS_DIR=$LEGO_WRAPPERS_DIR/hooks
+LEGO_CERTS_DIR=/etc/ssl/sites
 
 LEGO_HOME_DIR=/etc/lego
 
@@ -122,6 +123,11 @@ install_scripts() {
 
     log -d "Creating symlinks"
     ln -s $LEGO_WRAPPERS_DIR/scripts/lego-launch.sh /usr/local/bin/lego-launch
+
+    log -d "Creating directory $LEGO_CERTS_DIR"
+    mkdir -p $LEGO_CERTS_DIR
+    chgrp $LEGO_GROUP $LEGO_CERTS_DIR
+    chmod 775 $LEGO_CERTS_DIR
 }
 
 domain=''
