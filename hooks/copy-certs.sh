@@ -6,9 +6,16 @@
 #    LEGO_CERT_PATH: the path of the certificate.
 #    LEGO_CERT_KEY_PATH: the path of the certificate key.
 
-TARGET_DIR=/etc/ssl/sites/$LEGO_CERT_DOMAIN
+#    LEGO_EMAIL: email used for registration and recovery contact.
+#    FREEMYIP_DOMAIN: freemyip domain
+#    FREEMIP_TOKEN: account token
+
+TARGET_DIR=/etc/ssl/sites/$FREEMYIP_DOMAIN
+
+source /usr/share/lego/scripts/lego-log.sh
 
 if mkdir -p $TARGET_DIR; then
+    log -d "Copy certificates into $TARGET_DIR"
     cp $LEGO_CERT_PATH $TARGET_DIR/fullchain.crt
     chmod 644 $TARGET_DIR/fullchain.crt
 
