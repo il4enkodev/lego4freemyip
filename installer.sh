@@ -157,6 +157,10 @@ export LEGO_EMAIL=$email
 export FREEMYIP_DOMAIN=$domain
 export FREEMYIP_TOKEN=$token
 EOF
+
+
+    chown -R $LEGO_USER:$LEGO_GROUP $LEGO_HOME_DIR
+    chmod 640 $LEGO_HOME_DIR/freemyip.env
 }
 
 # ----- MAIN ----------

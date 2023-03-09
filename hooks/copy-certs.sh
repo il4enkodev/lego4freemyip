@@ -23,7 +23,7 @@ if mkdir -p $TARGET_DIR; then
     cp $LEGO_CERT_KEY_PATH $TARGET_DIR/private.key
     chmod 640 $TARGET_DIR/private.key
 
-    if [ $UID -e 0 ]; then
+    if [ $UID -eq 0 ]; then
         chown -R lego:ssl-certs $TARGET_DIR
         chmod 755 $TARGET_DIR
     fi
