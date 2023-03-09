@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export LEGO_PATH=/etc/lego
-LEGO_ENV=$LEGO_PATH/freemyip.env
+LEGO_HOME_DIR=/etc/lego
+ENV_FILE=$LEGO_HOME_DIR/freemyip.env
 
 check_vars() {
 	local out=${1:-/dev/null}
@@ -15,9 +15,9 @@ check_vars() {
 
 load_lego_env() {
     if ! check_vars; then
-        source $LEGO_ENV
+        source $ENV_FILE
         if [[ $? -ne 0 ]]; then
-            echo "Failed to load environment variables from $LEGO_ENV" >&2
+            echo "Failed to load environment variables from $ENV_FILE" >&2
             exit $1
         fi
         check_vars /dev/stderr
@@ -25,5 +25,7 @@ load_lego_env() {
 }
 
 clear_lego_env() {
-
+    unset LEGO_EMAIL
+    unset FREEMYIP_DOMAIN
+    unset FREEMYIP_TOKEN
 }

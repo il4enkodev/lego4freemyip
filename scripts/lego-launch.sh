@@ -51,3 +51,5 @@ case $1 in
     list)   list ;;
     *) usage ;;
 esac
+
+clear_lego_env
